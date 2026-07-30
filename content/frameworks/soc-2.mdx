@@ -1,0 +1,74 @@
+---
+title: "SOC 2"
+slug: soc-2
+category: GRC
+status: in-progress
+summary: "AICPA Trust Services Criteria for security, availability, processing integrity, confidentiality, and privacy."
+updated: 2026-07-30
+focus:
+  - "Trust Services Criteria"
+  - "Type I / Type II"
+sources:
+  - name: "AICPA — SOC 2 / Trust Services Criteria"
+    url: "https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2"
+---
+
+## Overview
+
+**SOC 2** is an attestation report, defined by the AICPA, on the controls at a service organization
+relevant to the **Trust Services Criteria (TSC)**. It is widely requested by customers of SaaS and
+cloud vendors as evidence of a sound control environment.
+
+## Purpose
+
+Give customers independent assurance — via a licensed CPA firm — that a service provider's controls
+are suitably designed (and, for Type II, operating effectively) to meet the selected criteria.
+
+## Architecture
+
+Reports cover one or more of the five **Trust Services Criteria**:
+
+| Criterion             | Concerns                                             |
+| --------------------- | --------------------------------------------------- |
+| Security (required)   | Protection against unauthorized access (Common Criteria) |
+| Availability          | System uptime and operational commitments           |
+| Processing Integrity  | Complete, valid, accurate, timely processing        |
+| Confidentiality       | Protection of information designated confidential    |
+| Privacy               | Handling of personal information per commitments     |
+
+## Core Concepts
+
+- **Type I vs. Type II** — design at a point in time vs. operating effectiveness over a period
+  (typically 3–12 months).
+- **Common Criteria (CC)** — the security baseline shared by all reports.
+- **Complementary user-entity controls** — controls the customer must run for the whole to work.
+
+## Controls
+
+The **Common Criteria** span control environment, communication, risk assessment, monitoring, and
+logical/physical access (CC6). Access control (CC6.1–CC6.3) is the most commonly examined area.
+
+## Cloud Mapping
+
+CC6 logical-access controls map to AWS IAM, Azure RBAC + Entra ID, and Kubernetes RBAC; change
+management (CC8) maps to CI/CD approvals and infrastructure-as-code review.
+
+## Implementation Guidance
+
+1. Choose the criteria in scope (Security is mandatory).
+2. Document controls and map them to the TSC.
+3. Operate controls and collect evidence over the audit period.
+4. Engage a CPA firm for the examination.
+
+## Interview Questions
+
+- What is the difference between a SOC 2 Type I and Type II report?
+- Which Trust Services Criterion is always included?
+
+## Quiz
+
+- What is a complementary user-entity control (CUEC)?
+
+## References
+
+See the primary source below.

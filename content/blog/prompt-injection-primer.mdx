@@ -1,0 +1,43 @@
+---
+title: "Prompt injection is the injection flaw of the AI era"
+slug: prompt-injection-primer
+summary: "Why prompt injection is hard to fix, and how to think about layered defenses."
+updated: 2026-07-30
+author: "SCA Team"
+date: 2026-07-29
+tags:
+  - "AI Security"
+  - "OWASP"
+---
+
+If you have done any application security, injection flaws are familiar: untrusted input gets treated
+as trusted instructions. SQL injection, command injection, XSS — same root cause, different
+interpreter. **Prompt injection is the same idea, aimed at a language model.**
+
+## Why it is uniquely hard
+
+With SQL injection we have a fix: parameterized queries cleanly separate code from data. With an
+LLM, there is no equivalent hard boundary. The model reads one stream of tokens and cannot reliably
+tell *your* instructions from instructions that arrived inside the *data* it was asked to process.
+
+That is why there is no single switch to flip. Anyone selling you "one weird trick" to stop prompt
+injection is overselling.
+
+## Defense in depth
+
+Because you cannot fully prevent it, you contain it:
+
+- **Separate instructions from data.** Delimit and label untrusted content clearly.
+- **Least privilege for tools.** A summarizer needs no send-email or file-write capability.
+- **Filter outputs.** Validate responses before acting on them.
+- **Human-in-the-loop.** Require confirmation for side-effecting actions.
+
+<Callout title="Practice it">
+Reproduce the attack and layer these defenses in the
+[prompt-injection lab](/labs/prompt-injection-defense).
+</Callout>
+
+## Learn more
+
+See the [AI Security](/ai-security) section for the OWASP LLM Top 10, MITRE ATLAS, and the governance
+frameworks that now expect you to address this.

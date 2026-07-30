@@ -1,0 +1,76 @@
+---
+title: "Enforce least-privilege access with IAM"
+slug: least-privilege-iam
+summary: "Design and test a least-privilege IAM policy, and map it to the frameworks that require it."
+updated: 2026-07-30
+difficulty: Beginner
+duration: "30 min"
+framework: "ISO/IEC 27001"
+objectives:
+  - "Write an IAM policy that grants only the permissions a role needs"
+  - "Verify access is denied outside the granted scope"
+  - "Map the control to ISO 27001, NIST CSF, and SOC 2"
+---
+
+## Scenario
+
+A reporting service needs **read-only** access to a single storage bucket. A teammate proposed
+attaching a broad "power user" policy "to keep things simple." Your job: replace it with a
+least-privilege policy and prove it works.
+
+## Steps
+
+### 1. Start from deny
+
+Least privilege means starting with **no access** and adding only what is needed. List exactly what
+the service does: read objects from one bucket. Nothing else.
+
+### 2. Write a scoped policy
+
+An identity policy granting read-only access to one bucket looks like this:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:ListBucket"],
+      "Resource": [
+        "arn:aws:s3:::reporting-data",
+        "arn:aws:s3:::reporting-data/*"
+      ]
+    }
+  ]
+}
+```
+
+<Callout title="Why this is least privilege">
+Only two read actions, scoped to one bucket ARN. No write, no delete, no access to other buckets.
+</Callout>
+
+### 3. Test the boundary
+
+Verify the **happy path** works and the **denied path** fails:
+
+- Reading an object from `reporting-data` → succeeds.
+- Writing an object, or reading a different bucket → **access denied**.
+
+If a denied action succeeds, the policy is too broad — tighten the `Action` or `Resource`.
+
+### 4. Map the control
+
+| Framework      | Reference        |
+| -------------- | ---------------- |
+| ISO/IEC 27001  | A.5.15, A.5.18   |
+| NIST CSF 2.0   | PR.AA            |
+| SOC 2          | CC6.1–CC6.3      |
+
+## Check your understanding
+
+- Why prefer a scoped resource ARN over `"Resource": "*"`?
+- What is the difference between an identity policy and a resource policy?
+
+## Where to go next
+
+Explore the full mapping in the [Control Explorer](/control-mapping#access-control).

@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Security Compliance Academy
 
-## Getting Started
+> Learn how technical controls map to compliance frameworks.
 
-First, run the development server:
+A free, open-source platform for learning cybersecurity frameworks, cloud security, AI security, and
+governance/risk/compliance — with hands-on labs and control-to-framework mapping.
+
+## Status
+
+**All five build phases complete.** The platform includes:
+
+- **Content pipeline** — MDX + YAML frontmatter with Mermaid diagrams; eight frameworks, two labs,
+  and blog posts render from `content/`.
+- **Interactive tools** — control explorer (search + filter), framework comparison matrix, quizzes,
+  interview bank + simulator, and site-wide search (⌘K).
+- **Personalization** — local progress tracking, bookmarks, and a dashboard (browser-only, no
+  backend), plus a retrieval-based study assistant.
+- **Career roadmaps**, cloud & secure-SDLC guides, threat modeling, blog, contribution guide, and a
+  teams/enterprise page.
+
+See the [build roadmap](/roadmap) and [`docs/`](./docs). Content is illustrative and educational —
+not legal or compliance advice.
+
+## Tech stack
+
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · lucide-react · Framer Motion ·
+MDX content pipeline · Vercel.
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Script                     | What it does                           |
+| -------------------------- | -------------------------------------- |
+| `npm run dev`              | Start the dev server                   |
+| `npm run build`            | Production build                       |
+| `npm run lint`             | ESLint                                 |
+| `npm run typecheck`        | TypeScript, no emit                    |
+| `npm run validate:content` | Validate content frontmatter           |
+| `npm run check`            | Lint + type-check + content validation |
 
-## Learn More
+## Documentation
 
-To learn more about Next.js, take a look at the following resources:
+- [Architecture](./docs/ARCHITECTURE.md)
+- [Content pipeline](./docs/CONTENT_PIPELINE.md)
+- [Contributing](./docs/CONTRIBUTING.md)
+- [CLAUDE.md](./CLAUDE.md) — guidance for AI-assisted development
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Content and code are intended to be open-source and free. Educational material only — not legal or
+compliance advice.
