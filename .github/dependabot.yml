@@ -11,8 +11,24 @@ updates:
         update-types:
           - minor
           - patch
+    ignore:
+      # These major bumps break the build/lint and are pinned by Next.js:
+      #   - typescript 7 (Go rewrite) fails the type-check
+      #   - eslint 10 is incompatible with eslint-config-next
+      #   - @types/node is kept in sync with the Node runtime (currently 22)
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: weekly
+    groups:
+      # Group action bumps into a single PR.
+      github-actions:
+        patterns:
+          - "*"
