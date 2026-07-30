@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import type { SearchDoc } from "@/lib/search";
+import { withBasePath } from "@/lib/base-path";
 
 type Answer = { doc: SearchDoc; excerpt: string; score: number };
 
@@ -27,7 +28,7 @@ export function StudyAssistant() {
   const [answers, setAnswers] = useState<Answer[] | null>(null);
 
   useEffect(() => {
-    fetch("/search-index.json")
+    fetch(withBasePath("/search-index.json"))
       .then((r) => r.json())
       .then((d: SearchDoc[]) => setIndex(d))
       .catch(() => setIndex([]));

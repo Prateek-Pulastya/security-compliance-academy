@@ -8,9 +8,9 @@ export const siteConfig = {
   shortName: "SCA",
   description:
     "A free, open-source platform for learning cybersecurity frameworks, cloud security, AI security, and governance, risk & compliance — with hands-on labs and control-to-framework mapping.",
-  url: "https://security-compliance-academy.example",
+  url: "https://Prateek-Pulastya.github.io/security-compliance-academy",
   tagline: "Learn how technical controls map to compliance frameworks.",
-  repo: "https://github.com/your-org/security-compliance-academy",
+  repo: "https://github.com/Prateek-Pulastya/security-compliance-academy",
 } as const;
 
 export type NavSection = {

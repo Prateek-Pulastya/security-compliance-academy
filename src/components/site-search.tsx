@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import type { SearchDoc } from "@/lib/search";
+import { withBasePath } from "@/lib/base-path";
 import { cn } from "@/lib/utils";
 
 function score(doc: SearchDoc, q: string): number {
@@ -47,7 +48,7 @@ export function SiteSearch() {
   useEffect(() => {
     if (!open) return;
     if (!index) {
-      fetch("/search-index.json")
+      fetch(withBasePath("/search-index.json"))
         .then((r) => r.json())
         .then((data: SearchDoc[]) => setIndex(data))
         .catch(() => setIndex([]));

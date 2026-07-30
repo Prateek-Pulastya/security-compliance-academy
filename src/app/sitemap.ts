@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { siteConfig, navSections } from "@/lib/site";
 import { getAllFrameworks, getAllLabs, getAllPosts } from "@/lib/content";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = siteConfig.url.replace(/\/$/, "");
   const staticRoutes = [
