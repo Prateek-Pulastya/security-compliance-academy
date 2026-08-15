@@ -1,4 +1,4 @@
-import { getAllFrameworks, getFrameworkDoc } from "./content";
+import { getAllFrameworks, getFrameworkDoc, getAllAiTopics, getAiTopicDoc } from "./content";
 import { navSections } from "./site";
 import { controls } from "./controls";
 
@@ -38,6 +38,18 @@ export function buildSearchIndex(): SearchDoc[] {
       title: meta.title,
       href: `/frameworks/${meta.slug}`,
       section: "Framework",
+      text: `${meta.summary} ${body}`.slice(0, 1200),
+    });
+  }
+
+  // AI Security topics
+  for (const meta of getAllAiTopics()) {
+    const doc = getAiTopicDoc(meta.slug);
+    const body = doc ? toPlainText(doc.body) : "";
+    docs.push({
+      title: meta.title,
+      href: `/ai-security/${meta.slug}`,
+      section: "AI Security",
       text: `${meta.summary} ${body}`.slice(0, 1200),
     });
   }

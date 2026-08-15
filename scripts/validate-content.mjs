@@ -32,6 +32,10 @@ const COLLECTIONS = {
     required: ["author", "date"],
     enums: {},
   },
+  "ai-security": {
+    required: ["kind"],
+    enums: { kind: ["Framework", "Threat", "Practice"] },
+  },
 };
 
 async function walk(dir) {

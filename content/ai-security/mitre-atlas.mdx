@@ -1,0 +1,40 @@
+---
+title: "MITRE ATLAS"
+slug: mitre-atlas
+kind: Framework
+order: 2
+summary: "A knowledge base of adversary tactics and techniques against AI-enabled systems."
+updated: 2026-08-15
+sources:
+  - name: "MITRE ATLAS"
+    url: "https://atlas.mitre.org/"
+---
+
+## Overview
+
+**MITRE ATLAS** (Adversarial Threat Landscape for Artificial-Intelligence Systems) is a knowledge
+base of real-world adversary tactics and techniques targeting AI systems — modelled on the format of
+MITRE ATT&CK, but for machine learning.
+
+## How it is organized
+
+Like ATT&CK, ATLAS is a matrix of **tactics** (the adversary's goal at each stage) and **techniques**
+(how they achieve it), spanning the ML lifecycle:
+
+- Reconnaissance and resource development against a target model
+- **ML attack staging** — crafting adversarial inputs, poisoning data
+- Model access, exfiltration, and evasion
+- Impact on the AI-enabled system
+
+Each technique includes real case studies of attacks observed in the wild.
+
+## Why it matters
+
+ATLAS gives defenders a shared vocabulary for AI threats and a way to reason about coverage —
+"which ATLAS techniques can our system be hit by, and what detects or mitigates them?" It pairs
+naturally with the [OWASP LLM Top 10](/ai-security/owasp-llm-top-10) (risks) and
+[NIST AI RMF](/ai-security/nist-ai-rmf) (governance).
+
+## References
+
+See the primary source below.

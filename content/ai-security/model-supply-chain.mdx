@@ -1,0 +1,38 @@
+---
+title: "Model Supply Chain"
+slug: model-supply-chain
+kind: Practice
+order: 10
+summary: "Provenance, integrity, and dependency risk for models, datasets, and plugins."
+updated: 2026-08-15
+sources:
+  - name: "OWASP Top 10 for LLM Applications — Supply Chain"
+    url: "https://genai.owasp.org/"
+---
+
+## Overview
+
+An AI system inherits risk from everything it is built on: base models, fine-tuning data, embeddings,
+libraries, and plugins. OWASP lists **Supply Chain** as a top LLM risk because a compromise upstream
+becomes a compromise in your app.
+
+## Where risk enters
+
+- **Pretrained models** — a model from an untrusted source may be backdoored or poisoned.
+- **Datasets** — poisoned training/fine-tuning data biases or backdoors behaviour.
+- **Third-party plugins / tools** — extend capability and attack surface at once.
+- **Model artifacts** — unsafe serialization formats can execute code on load.
+
+## Defenses
+
+- **Provenance** — source models and datasets from trusted, verifiable origins.
+- **Integrity** — verify checksums/signatures; prefer safe artifact formats.
+- **Inventory** — maintain an AI bill of materials (models, data, dependencies).
+- **Isolation** — load and evaluate untrusted models in a sandbox.
+
+This mirrors classic software supply-chain security — see
+[Secure SDLC](/secure-sdlc) — applied to models and data.
+
+## References
+
+See the primary source below.

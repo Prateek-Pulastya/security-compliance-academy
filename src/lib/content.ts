@@ -209,6 +209,66 @@ export function getAllPosts(): PostMeta[] {
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 
+// ---------------------------------------------------------------------------
+// AI Security topics
+// ---------------------------------------------------------------------------
+
+export type AiTopicKind = "Framework" | "Threat" | "Practice";
+
+export type AiTopicMeta = {
+  slug: string;
+  title: string;
+  summary: string;
+  updated: string;
+  kind: AiTopicKind;
+  order: number;
+  sources: Source[];
+};
+
+export type AiTopicDoc = { meta: AiTopicMeta; body: string };
+
+function aiDir() {
+  return join(CONTENT_ROOT, "ai-security");
+}
+
+export function getAiTopicSlugs(): string[] {
+  try {
+    return readdirSync(aiDir())
+      .filter(isContentFile)
+      .map((n) => n.replace(/\.mdx$/, ""));
+  } catch {
+    return [];
+  }
+}
+
+export function getAiTopicDoc(slug: string): AiTopicDoc | null {
+  try {
+    const raw = readFileSync(join(aiDir(), `${slug}.mdx`), "utf8");
+    const { data, content } = matter(raw);
+    return {
+      meta: {
+        slug,
+        title: String(data.title ?? slug),
+        summary: String(data.summary ?? ""),
+        updated: String(data.updated ?? ""),
+        kind: (data.kind as AiTopicKind) ?? "Practice",
+        order: Number(data.order ?? 99),
+        sources: Array.isArray(data.sources) ? (data.sources as Source[]) : [],
+      },
+      body: content,
+    };
+  } catch {
+    return null;
+  }
+}
+
+export function getAllAiTopics(): AiTopicMeta[] {
+  return getAiTopicSlugs()
+    .map((slug) => getAiTopicDoc(slug)?.meta)
+    .filter((m): m is AiTopicMeta => Boolean(m))
+    .sort((a, b) => a.order - b.order || a.title.localeCompare(b.title));
+}
+
 /** Extract an H2/H3 table of contents from raw MDX (skips fenced code blocks). */
 export function extractToc(body: string): TocItem[] {
   const items: TocItem[] = [];

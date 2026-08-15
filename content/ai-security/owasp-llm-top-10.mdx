@@ -1,0 +1,48 @@
+---
+title: "OWASP LLM Top 10"
+slug: owasp-llm-top-10
+kind: Framework
+order: 1
+summary: "The community list of the most critical security risks in LLM applications."
+updated: 2026-08-15
+sources:
+  - name: "OWASP GenAI / Top 10 for LLM Applications"
+    url: "https://genai.owasp.org/"
+---
+
+## Overview
+
+The **OWASP Top 10 for LLM Applications** is a community-built list of the most critical security
+risks specific to applications built on large language models. It plays the same role for LLM apps
+that the classic OWASP Top 10 plays for web apps: a shared, prioritized starting point.
+
+## The risks at a glance
+
+| Risk | What it is |
+| --- | --- |
+| Prompt Injection | Attacker-controlled input overrides intended instructions |
+| Sensitive Information Disclosure | Model leaks secrets, PII, or proprietary data |
+| Supply Chain | Compromised models, datasets, or plugins |
+| Data & Model Poisoning | Training/fine-tuning data manipulated to bias behaviour |
+| Improper Output Handling | Trusting model output without validation (XSS, SSRF, RCE) |
+| Excessive Agency | Too much autonomy, permission, or tool access |
+| System Prompt Leakage | Confidential instructions extracted from the model |
+| Vector & Embedding Weaknesses | Attacks on RAG retrieval and embeddings |
+| Misinformation | Confident but wrong output relied upon |
+| Unbounded Consumption | Denial-of-wallet / resource exhaustion |
+
+## Why it matters
+
+LLM apps introduce failure modes traditional AppSec does not cover — the model treats data as
+potential instructions, and tool-using agents can take real actions. The Top 10 gives teams a map of
+where to look first.
+
+## How to use it
+
+Treat it as a checklist during design and review: for each risk, ask "does our app expose this, and
+what control mitigates it?" Start with **Prompt Injection** — see the
+[Prompt Injection](/ai-security/prompt-injection) topic for depth.
+
+## References
+
+See the primary source below.

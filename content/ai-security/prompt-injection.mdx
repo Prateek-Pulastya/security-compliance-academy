@@ -1,0 +1,55 @@
+---
+title: "Prompt Injection"
+slug: prompt-injection
+kind: Threat
+order: 6
+summary: "Manipulating a model's behaviour through crafted input — the injection flaw of the AI era."
+updated: 2026-08-15
+sources:
+  - name: "OWASP Top 10 for LLM Applications — LLM01"
+    url: "https://genai.owasp.org/"
+---
+
+## Overview
+
+**Prompt injection** is the same idea as SQL or command injection, aimed at a language model:
+untrusted input is treated as trusted instructions. It is ranked **LLM01** in the OWASP LLM Top 10
+because it is both common and hard to fully prevent.
+
+## Direct vs. indirect
+
+```mermaid
+flowchart TB
+  U[User] -->|types a jailbreak| M[LLM]
+  W[Attacker web page or document] -->|hidden instructions in fetched data| M
+  M --> A[Model follows the injected instruction]
+```
+
+- **Direct injection** — the user themselves tries to override the system prompt
+  ("ignore your instructions and…").
+- **Indirect injection** — malicious instructions hide inside **content the model retrieves or is
+  asked to process** (a web page, a PDF, an email), and the model follows them.
+
+<Callout title="Why it is hard to fix">
+The model reads one stream of tokens and cannot reliably tell your instructions apart from attacker
+text that arrives as data. There is no equivalent of a parameterized query. Treat all retrieved
+content as untrusted.
+</Callout>
+
+## Defense in depth
+
+No single control is enough — layer them:
+
+- **Separate instructions from data** — delimit and label untrusted content clearly.
+- **Least privilege for tools** — a summarizer needs no send-email or file-write capability.
+- **Output filtering** — validate/screen responses before acting on them.
+- **Human-in-the-loop** — require confirmation for side-effecting actions.
+
+## Practice it
+
+Reproduce the attack and layer defenses in the
+[prompt-injection lab](/labs/prompt-injection-defense).
+
+## References
+
+See the primary source below.
