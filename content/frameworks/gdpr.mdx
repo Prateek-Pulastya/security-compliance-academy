@@ -40,6 +40,12 @@ including security of processing (Article 32) and breach notification (Articles 
   legitimate interests.
 - **Data-subject rights** — access, rectification, erasure, portability, objection, and more.
 
+Personal data rarely sits still. Mapping how it flows between the data subject, your systems
+(controller), your vendors (processors), and independent third parties is the technique used to
+build your Record of Processing Activities:
+
+<DataFlowDiagram />
+
 ## Controls
 
 The security obligations live in **Article 32 — Security of processing**.
@@ -50,6 +56,23 @@ appropriate technical and organisational measures to ensure a level of security 
 risk, including inter alia … the pseudonymisation and encryption of personal data (GDPR, Article 32).
 Consult the official regulation text for the authoritative wording.
 </Official>
+
+## Breach notification (Articles 33–34)
+
+When a personal-data breach happens, the decision to notify follows a simple path — and the clock
+starts the moment you **become aware**, not when the breach occurred:
+
+```mermaid
+flowchart TD
+  A[Become aware of breach] --> B{Risk to individuals?}
+  B -->|No| C[Record internally, no notification]
+  B -->|Yes| D[Notify supervisory authority within 72h, Art. 33]
+  D --> E{High risk to individuals?}
+  E -->|No| F[No individual notice needed]
+  E -->|Yes| G[Also notify affected individuals, Art. 34]
+```
+
+<BreachTimeline />
 
 ## Real-world Examples
 

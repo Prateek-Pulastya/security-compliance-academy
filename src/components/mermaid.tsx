@@ -50,7 +50,12 @@ export function Mermaid({ code, caption }: { code: string; caption?: string }) {
         {failed ? (
           <pre className="text-xs text-muted-foreground">{code}</pre>
         ) : svg ? (
-          <div className="[&_svg]:h-auto [&_svg]:max-w-full" dangerouslySetInnerHTML={{ __html: svg }} />
+          <div
+            role="img"
+            aria-label={caption ?? "Diagram"}
+            className="[&_svg]:h-auto [&_svg]:max-w-full"
+            dangerouslySetInnerHTML={{ __html: svg }}
+          />
         ) : (
           <div className="h-24 w-full animate-pulse rounded bg-muted" aria-hidden="true" />
         )}

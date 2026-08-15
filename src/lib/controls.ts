@@ -106,3 +106,18 @@ export function allFrameworks(): string[] {
   for (const c of controls) for (const m of c.mappings) set.add(m.framework);
   return Array.from(set).sort();
 }
+
+/** Compliance frameworks used as columns in the coverage matrix (excludes cloud services). */
+export const coverageFrameworks = [
+  "ISO/IEC 27001",
+  "NIST CSF 2.0",
+  "SOC 2",
+  "GDPR",
+  "CIS Controls v8",
+  "DORA",
+] as const;
+
+/** The mapping reference for a control under a framework, or null if unmapped. */
+export function coverageRef(control: Control, framework: string): string | null {
+  return control.mappings.find((m) => m.framework === framework)?.reference ?? null;
+}

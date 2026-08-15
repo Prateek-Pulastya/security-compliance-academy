@@ -3,6 +3,8 @@ import { ShieldCheck, Info } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 import { slugify } from "@/lib/content";
 import { Mermaid } from "./mermaid";
+import { BreachTimeline } from "./breach-timeline";
+import { DataFlowDiagram } from "./data-flow-diagram";
 
 function headingId(children: ReactNode): string | undefined {
   return typeof children === "string" ? slugify(children) : undefined;
@@ -62,6 +64,8 @@ export const mdxComponents = {
   Official,
   Callout,
   Mermaid,
+  BreachTimeline,
+  DataFlowDiagram,
   a: Anchor,
   h2: ({ id, children }: ComponentProps<"h2">) => (
     <h2

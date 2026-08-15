@@ -3,13 +3,25 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/container";
 import { PageHeader } from "@/components/page-header";
-import { careerPaths } from "@/lib/career";
+import { Mermaid } from "@/components/mermaid";
+import { careerPaths, type CareerPath } from "@/lib/career";
 
 export const metadata: Metadata = {
   title: "Career Roadmaps",
   description:
     "Structured learning paths for GRC, cloud security, application security, and AI security roles.",
 };
+
+/** Build a top-down Mermaid flowchart of a path's steps (fits the card column). */
+function pathDiagram(path: CareerPath): string {
+  const lines = ["flowchart TB"];
+  path.steps.forEach((step, i) => {
+    const label = step.title.replace(/"/g, "'");
+    lines.push(`  s${i}["${i + 1}. ${label}"]`);
+    if (i > 0) lines.push(`  s${i - 1} --> s${i}`);
+  });
+  return lines.join("\n");
+}
 
 export default function CareerRoadmapsPage() {
   return (
@@ -25,6 +37,7 @@ export default function CareerRoadmapsPage() {
             <section key={path.slug} className="rounded-xl border border-border bg-card p-6">
               <h2 className="text-lg font-semibold">{path.role}</h2>
               <p className="mt-1 text-sm text-muted-foreground">{path.summary}</p>
+              <Mermaid code={pathDiagram(path)} caption={`${path.role} path at a glance`} />
               <ol className="mt-5 space-y-4">
                 {path.steps.map((step, i) => (
                   <li key={step.title} className="flex gap-3">
