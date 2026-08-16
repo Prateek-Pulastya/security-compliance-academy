@@ -1,0 +1,46 @@
+---
+title: "Cloud IAM & Least Privilege"
+slug: cloud-iam
+kind: Practice
+order: 2
+summary: "Identity and access management is the backbone of cloud security — grant only what's needed."
+updated: 2026-08-15
+sources:
+  - name: "AWS IAM best practices"
+    url: "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html"
+---
+
+## Overview
+
+Identity is the new perimeter. In the cloud, **who can do what to which resource** is decided by IAM,
+and least privilege — granting only the permissions a task genuinely needs — is the single highest-
+leverage control.
+
+## Core practices
+
+- **Prefer roles over long-lived keys.** Use short-lived, assumed credentials; avoid static access
+  keys committed to code.
+- **Scope to specific actions and resources.** Grant `s3:GetObject` on one bucket ARN, not `*`.
+- **Add guardrails.** Permission boundaries and organization policies (SCPs) cap what any identity
+  can do.
+- **Review continually.** Tools like access analyzers surface unused or over-broad permissions.
+
+## How it maps
+
+| Provider | Primitive |
+| --- | --- |
+| AWS | IAM policies, roles, permission boundaries, SCPs |
+| Azure | Azure RBAC + Entra ID role assignments |
+| GCP | Cloud IAM roles and conditions |
+| Kubernetes | RBAC Roles / RoleBindings |
+
+This is the same **Access Control** covered across every framework — see
+[Control Explorer](/control-mapping#access-control).
+
+## Practice it
+
+Do the [least-privilege IAM lab](/labs/least-privilege-iam).
+
+## References
+
+See the primary source below.

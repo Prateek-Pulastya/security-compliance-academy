@@ -1,0 +1,40 @@
+---
+title: "Cloud Network Security"
+slug: cloud-network-security
+kind: Practice
+order: 3
+summary: "Segment networks and control traffic at every trust boundary in the cloud."
+updated: 2026-08-15
+sources:
+  - name: "AWS VPC security best practices"
+    url: "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-best-practices.html"
+---
+
+## Overview
+
+Cloud networks are software-defined, which makes segmentation cheap — and misconfiguration easy.
+The goal is **least-privilege connectivity**: only the traffic that must flow, flows.
+
+## Core practices
+
+- **Segment** workloads into private subnets; keep databases off the public internet.
+- **Default deny** ingress; allow only required ports and sources.
+- **Layer controls** — stateful instance-level rules plus stateless subnet-level rules.
+- **Terminate exposure at the edge** — load balancers, WAFs, and private endpoints instead of
+  public IPs on workloads.
+
+## How it maps
+
+| Provider | Primitives |
+| --- | --- |
+| AWS | VPC, Security Groups (stateful), NACLs (stateless), PrivateLink |
+| Azure | VNet, NSGs, Azure Firewall, Private Endpoints |
+| GCP | VPC, Firewall Rules, Cloud NAT |
+| Kubernetes | NetworkPolicy (pod-level ingress/egress) |
+
+Ties to **Network Security** in the [Control Explorer](/control-mapping#network-security) and to
+[threat modeling](/threat-modeling) trust boundaries.
+
+## References
+
+See the primary source below.

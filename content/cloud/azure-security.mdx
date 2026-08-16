@@ -1,0 +1,41 @@
+---
+title: "Azure Security"
+slug: azure-security
+kind: Provider
+order: 6
+summary: "Core building blocks for securing workloads on Microsoft Azure."
+updated: 2026-08-15
+sources:
+  - name: "Microsoft Cloud Security Benchmark"
+    url: "https://learn.microsoft.com/en-us/security/benchmark/azure/"
+---
+
+## Overview
+
+Azure security centres on **Entra ID** (identity) and **Microsoft Defender for Cloud** (posture and
+threat protection), guided by the Microsoft Cloud Security Benchmark.
+
+## The essentials
+
+| Area | Services |
+| --- | --- |
+| Identity | Entra ID, Azure RBAC, Conditional Access, PIM |
+| Detection | Defender for Cloud, Microsoft Sentinel, Azure Monitor |
+| Network | VNet, NSGs, Azure Firewall, Private Endpoints |
+| Data | Key Vault, Storage encryption, confidential computing |
+| Governance | Azure Policy, Management Groups |
+
+## Quick wins
+
+- Enforce MFA and Conditional Access in Entra ID.
+- Turn on Defender for Cloud; act on its secure-score recommendations.
+- Use Azure Policy to prevent public exposure and enforce encryption.
+- Store secrets in Key Vault, not config.
+
+## Maps to
+
+See how these map across frameworks in the [Control Explorer](/control-mapping).
+
+## References
+
+See the primary source below.

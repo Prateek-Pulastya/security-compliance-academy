@@ -1,4 +1,11 @@
-import { getAllFrameworks, getFrameworkDoc, getAllAiTopics, getAiTopicDoc } from "./content";
+import {
+  getAllFrameworks,
+  getFrameworkDoc,
+  getAllAiTopics,
+  getAiTopicDoc,
+  getAllTopics,
+  getTopicDoc,
+} from "./content";
 import { navSections } from "./site";
 import { controls } from "./controls";
 
@@ -52,6 +59,23 @@ export function buildSearchIndex(): SearchDoc[] {
       section: "AI Security",
       text: `${meta.summary} ${body}`.slice(0, 1200),
     });
+  }
+
+  // Cloud & Threat-Modeling topics
+  for (const [collection, section] of [
+    ["cloud", "Cloud Security"],
+    ["threat-modeling", "Threat Modeling"],
+  ] as const) {
+    for (const meta of getAllTopics(collection)) {
+      const doc = getTopicDoc(collection, meta.slug);
+      const body = doc ? toPlainText(doc.body) : "";
+      docs.push({
+        title: meta.title,
+        href: `/${collection}/${meta.slug}`,
+        section,
+        text: `${meta.summary} ${body}`.slice(0, 1200),
+      });
+    }
   }
 
   // Controls

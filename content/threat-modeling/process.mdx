@@ -1,0 +1,43 @@
+---
+title: "The Threat-Modeling Process"
+slug: process
+kind: Concept
+order: 1
+summary: "Four questions that structure any threat model, from a sketch to a formal review."
+updated: 2026-08-15
+sources:
+  - name: "OWASP Threat Modeling"
+    url: "https://owasp.org/www-community/Threat_Modeling"
+---
+
+## Overview
+
+Threat modeling is a structured way to find design weaknesses **before** you ship. At its core it is
+four questions, popularized by Adam Shostack:
+
+```mermaid
+flowchart LR
+  Q1[What are we building?] --> Q2[What can go wrong?]
+  Q2 --> Q3[What are we going to do about it?]
+  Q3 --> Q4[Did we do a good job?]
+  Q4 -->|iterate| Q1
+```
+
+## The four questions
+
+1. **What are we building?** — model the system, usually a
+   [data-flow diagram](/threat-modeling/data-flow-diagrams) with
+   [trust boundaries](/threat-modeling/trust-boundaries).
+2. **What can go wrong?** — enumerate threats, e.g. with
+   [STRIDE](/threat-modeling/stride) or an [attack tree](/threat-modeling/attack-trees).
+3. **What are we going to do about it?** — choose mitigations, each mapped to a concrete control.
+4. **Did we do a good job?** — validate coverage and iterate.
+
+## When to do it
+
+During **design**, and again on significant change. A flaw caught in design is a conversation; the
+same flaw in production is an incident.
+
+## References
+
+See the primary source below.

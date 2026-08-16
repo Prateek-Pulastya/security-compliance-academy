@@ -36,6 +36,14 @@ const COLLECTIONS = {
     required: ["kind"],
     enums: { kind: ["Framework", "Threat", "Practice"] },
   },
+  cloud: {
+    required: ["kind"],
+    enums: { kind: ["Provider", "Practice", "Concept"] },
+  },
+  "threat-modeling": {
+    required: ["kind"],
+    enums: { kind: ["Method", "Technique", "Concept"] },
+  },
 };
 
 async function walk(dir) {

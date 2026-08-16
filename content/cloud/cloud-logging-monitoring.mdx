@@ -1,0 +1,39 @@
+---
+title: "Cloud Logging & Monitoring"
+slug: cloud-logging-monitoring
+kind: Practice
+order: 4
+summary: "You can't detect what you don't log — capture, centralize, and alert on cloud activity."
+updated: 2026-08-15
+sources:
+  - name: "AWS CloudTrail documentation"
+    url: "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html"
+---
+
+## Overview
+
+Detection and response depend on telemetry. In the cloud, an **API audit trail** plus workload and
+network logs give you the visibility to spot compromise and prove compliance.
+
+## Core practices
+
+- **Turn on the API audit trail** in every account/region and protect it from tampering.
+- **Centralize logs** into one account/workspace with restricted access and retention.
+- **Enable managed threat detection** for anomaly and known-bad detection.
+- **Alert, don't just collect** — route high-signal events to on-call.
+
+## How it maps
+
+| Provider | Services |
+| --- | --- |
+| AWS | CloudTrail, GuardDuty, CloudWatch, Security Hub |
+| Azure | Azure Monitor, Microsoft Defender for Cloud |
+| GCP | Cloud Logging, Security Command Center |
+| Kubernetes | Audit logs, container/runtime monitoring |
+
+Ties to **Logging & Monitoring** in the [Control Explorer](/control-mapping#logging-monitoring) and
+the [NIST incident-response lifecycle](/frameworks/nist-csf).
+
+## References
+
+See the primary source below.

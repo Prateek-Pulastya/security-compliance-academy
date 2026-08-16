@@ -1,0 +1,40 @@
+---
+title: "Attack Trees"
+slug: attack-trees
+kind: Technique
+order: 4
+summary: "Decompose an attacker's goal into the paths that could achieve it."
+updated: 2026-08-15
+sources:
+  - name: "Bruce Schneier — Attack Trees"
+    url: "https://www.schneier.com/academic/archives/1999/12/attack_trees.html"
+---
+
+## Overview
+
+An **attack tree** is goal-first: put the attacker's objective at the root, then branch into the
+ways to reach it. It complements [STRIDE](/threat-modeling/stride) — STRIDE finds threats per
+element; attack trees reason about a whole goal.
+
+## Example: steal a user's session
+
+```mermaid
+flowchart TB
+  G[Goal: hijack user session] --> A[Steal session token]
+  G --> B[Guess or forge token]
+  A --> A1[XSS to read cookie]
+  A --> A2[Network sniffing]
+  B --> B1[Weak token entropy]
+  A2 --> A2a[No TLS]
+```
+
+## How to use it
+
+- Read leaves as the concrete attacks to defend against.
+- Optionally annotate nodes with cost, skill, or likelihood to prioritize.
+- Each leaf should map to a mitigation and a control
+  (see the [Control Explorer](/control-mapping)).
+
+## References
+
+See the primary source below.

@@ -1,0 +1,39 @@
+---
+title: "Trust Boundaries"
+slug: trust-boundaries
+kind: Concept
+order: 5
+summary: "The lines where the level of trust changes — and where most threats live."
+updated: 2026-08-15
+sources:
+  - name: "OWASP Threat Modeling"
+    url: "https://owasp.org/www-community/Threat_Modeling"
+---
+
+## Overview
+
+A **trust boundary** is any point where data or requests move between zones of differing trust — the
+internet and your VPC, one service and another, user space and the kernel. Threats concentrate at
+these crossings because that's where assumptions can be violated.
+
+## Common boundaries
+
+- Client ↔ server (the browser is untrusted)
+- Your app ↔ a third-party API or [MCP server](/ai-security/mcp-security)
+- Between microservices or tenants
+- Application ↔ database
+- One cloud account/VPC ↔ another
+
+## What to do at each crossing
+
+- **Authenticate** the other side and **authorize** the request (least privilege).
+- **Validate and encode** everything crossing the boundary — treat it as untrusted.
+- **Encrypt** data in transit.
+- **Log** the crossing for audit.
+
+Draw boundaries explicitly on your [data-flow diagram](/threat-modeling/data-flow-diagrams), then
+apply [STRIDE](/threat-modeling/stride) at each one.
+
+## References
+
+See the primary source below.

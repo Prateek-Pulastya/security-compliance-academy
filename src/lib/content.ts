@@ -269,6 +269,60 @@ export function getAllAiTopics(): AiTopicMeta[] {
     .sort((a, b) => a.order - b.order || a.title.localeCompare(b.title));
 }
 
+// ---------------------------------------------------------------------------
+// Generic topic collections (Cloud, Threat Modeling, …)
+// ---------------------------------------------------------------------------
+
+export type TopicMeta = {
+  slug: string;
+  title: string;
+  summary: string;
+  updated: string;
+  kind: string;
+  order: number;
+  sources: Source[];
+};
+
+export type TopicDoc = { meta: TopicMeta; body: string };
+
+export function getTopicSlugs(collection: string): string[] {
+  try {
+    return readdirSync(join(CONTENT_ROOT, collection))
+      .filter(isContentFile)
+      .map((n) => n.replace(/\.mdx$/, ""));
+  } catch {
+    return [];
+  }
+}
+
+export function getTopicDoc(collection: string, slug: string): TopicDoc | null {
+  try {
+    const raw = readFileSync(join(CONTENT_ROOT, collection, `${slug}.mdx`), "utf8");
+    const { data, content } = matter(raw);
+    return {
+      meta: {
+        slug,
+        title: String(data.title ?? slug),
+        summary: String(data.summary ?? ""),
+        updated: String(data.updated ?? ""),
+        kind: String(data.kind ?? "Topic"),
+        order: Number(data.order ?? 99),
+        sources: Array.isArray(data.sources) ? (data.sources as Source[]) : [],
+      },
+      body: content,
+    };
+  } catch {
+    return null;
+  }
+}
+
+export function getAllTopics(collection: string): TopicMeta[] {
+  return getTopicSlugs(collection)
+    .map((slug) => getTopicDoc(collection, slug)?.meta)
+    .filter((m): m is TopicMeta => Boolean(m))
+    .sort((a, b) => a.order - b.order || a.title.localeCompare(b.title));
+}
+
 /** Extract an H2/H3 table of contents from raw MDX (skips fenced code blocks). */
 export function extractToc(body: string): TocItem[] {
   const items: TocItem[] = [];

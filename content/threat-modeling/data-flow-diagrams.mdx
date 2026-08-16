@@ -1,0 +1,45 @@
+---
+title: "Data-Flow Diagrams"
+slug: data-flow-diagrams
+kind: Technique
+order: 3
+summary: "Model how data moves through a system so you can see where threats concentrate."
+updated: 2026-08-15
+sources:
+  - name: "OWASP Threat Modeling Process"
+    url: "https://owasp.org/www-community/Threat_Modeling_Process"
+---
+
+## Overview
+
+A **data-flow diagram (DFD)** answers the first threat-modeling question — *what are we building?* —
+by showing processes, data stores, data flows, and external entities, with **trust boundaries**
+drawn where control changes hands.
+
+## A simple DFD
+
+```mermaid
+flowchart LR
+  User([User]) -->|HTTPS| API[Web API]
+  subgraph Trust["Trust boundary: your cloud"]
+    API --> Auth[Auth service]
+    API --> DB[(Database)]
+  end
+  API -->|logs| SIEM[(Audit log)]
+```
+
+## The four element types
+
+- **External entity** — a user or system outside your control (rectangle/rounded).
+- **Process** — code that transforms data.
+- **Data store** — where data rests (cylinder).
+- **Data flow** — data moving between elements (arrow).
+
+## Why boundaries matter
+
+Threats concentrate where data **crosses a trust boundary** — every crossing is where you apply
+[STRIDE](/threat-modeling/stride). See [trust boundaries](/threat-modeling/trust-boundaries).
+
+## References
+
+See the primary source below.

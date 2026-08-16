@@ -1,100 +1,51 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/container";
 import { PageHeader } from "@/components/page-header";
-import { Mermaid } from "@/components/mermaid";
+import { getAllTopics } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Threat Modeling",
-  description: "STRIDE, data-flow diagrams, and attack trees with worked examples.",
+  description: "STRIDE, data-flow diagrams, attack trees, and trust boundaries with worked examples.",
 };
 
-const stride: { letter: string; threat: string; property: string; example: string }[] = [
-  { letter: "S", threat: "Spoofing", property: "Authentication", example: "Forged tokens or identities" },
-  { letter: "T", threat: "Tampering", property: "Integrity", example: "Modifying data in transit or at rest" },
-  { letter: "R", threat: "Repudiation", property: "Non-repudiation", example: "Denying an action with no audit trail" },
-  { letter: "I", threat: "Information Disclosure", property: "Confidentiality", example: "Leaking data to unauthorized parties" },
-  { letter: "D", threat: "Denial of Service", property: "Availability", example: "Exhausting resources to cause downtime" },
-  { letter: "E", threat: "Elevation of Privilege", property: "Authorization", example: "Gaining rights beyond those granted" },
-];
+const kindStyles: Record<string, string> = {
+  Method: "bg-primary/15 text-primary",
+  Technique: "bg-accent/15 text-accent",
+  Concept: "bg-muted text-muted-foreground",
+};
 
 export default function ThreatModelingPage() {
+  const topics = getAllTopics("threat-modeling");
   return (
     <>
       <PageHeader
         eyebrow="Threat Modeling"
         title="Think like an attacker"
-        description="A structured way to find design weaknesses early. Model the system, enumerate threats, and decide on mitigations — before you ship."
+        description="A structured way to find design weaknesses early — model the system, enumerate threats, and decide mitigations. Click a topic to go deeper."
       />
       <Container className="py-12">
-        <div className="mx-auto max-w-3xl">
-          <section>
-            <h2 className="text-xl font-semibold tracking-tight">The four questions</h2>
-            <ol className="mt-4 list-decimal space-y-2 pl-6 text-foreground/90">
-              <li>What are we building? (Model it — a data-flow diagram.)</li>
-              <li>What can go wrong? (Enumerate threats — e.g. STRIDE.)</li>
-              <li>What are we going to do about it? (Mitigations mapped to controls.)</li>
-              <li>Did we do a good job? (Validate and iterate.)</li>
-            </ol>
-          </section>
-
-          <section className="mt-12">
-            <h2 className="text-xl font-semibold tracking-tight">Model: a data-flow diagram</h2>
-            <p className="mt-3 text-foreground/90">
-              Trust boundaries (dashed) are where threats concentrate — every crossing deserves
-              scrutiny.
-            </p>
-            <Mermaid
-              caption="A simple web app data-flow diagram with a trust boundary"
-              code={`flowchart LR
-  User([User]) -->|HTTPS| API[Web API]
-  subgraph Trust["Trust boundary: your cloud"]
-    API --> Auth[Auth service]
-    API --> DB[(Database)]
-  end
-  API -->|logs| SIEM[(Audit log)]`}
-            />
-          </section>
-
-          <section className="mt-12">
-            <h2 className="text-xl font-semibold tracking-tight">Enumerate: STRIDE</h2>
-            <p className="mt-3 text-foreground/90">
-              STRIDE pairs each threat category with the security property it violates.
-            </p>
-            <div className="mt-4 overflow-x-auto rounded-lg border border-border">
-              <table className="w-full border-collapse text-left text-sm">
-                <thead className="bg-muted/50">
-                  <tr>
-                    <th className="px-4 py-2.5 font-semibold">Threat</th>
-                    <th className="px-4 py-2.5 font-semibold">Violates</th>
-                    <th className="px-4 py-2.5 font-semibold">Example</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {stride.map((s, i) => (
-                    <tr key={s.letter} className={i % 2 ? "bg-muted/20" : ""}>
-                      <td className="px-4 py-2.5 font-medium">
-                        <span className="text-primary">{s.letter}</span> — {s.threat}
-                      </td>
-                      <td className="px-4 py-2.5 text-muted-foreground">{s.property}</td>
-                      <td className="px-4 py-2.5 text-muted-foreground">{s.example}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <section className="mt-12">
-            <h2 className="text-xl font-semibold tracking-tight">Mitigate: map to controls</h2>
-            <p className="mt-3 text-foreground/90">
-              Each mitigation should map to a concrete control and a framework requirement. Spoofing
-              → strong authentication (MFA) → ISO 27001 A.5.15, NIST CSF PR.AA. See{" "}
-              <a href="/control-mapping" className="font-medium text-primary hover:underline">
-                Control Mapping
-              </a>
-              .
-            </p>
-          </section>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {topics.map((t) => (
+            <Link
+              key={t.slug}
+              href={`/threat-modeling/${t.slug}`}
+              className="group flex flex-col rounded-xl border border-border bg-card p-6 transition-colors hover:border-primary/50 hover:bg-muted/40"
+            >
+              <span
+                className={`w-fit rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide ${kindStyles[t.kind] ?? "bg-muted text-muted-foreground"}`}
+              >
+                {t.kind}
+              </span>
+              <h2 className="mt-3 font-semibold">{t.title}</h2>
+              <p className="mt-2 flex-1 text-sm text-muted-foreground">{t.summary}</p>
+              <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
+                Learn
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </span>
+            </Link>
+          ))}
         </div>
       </Container>
     </>

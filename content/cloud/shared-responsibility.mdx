@@ -1,0 +1,50 @@
+---
+title: "Shared Responsibility Model"
+slug: shared-responsibility
+kind: Concept
+order: 1
+summary: "Who secures what in the cloud — and how the line shifts with the service model."
+updated: 2026-08-15
+sources:
+  - name: "AWS Shared Responsibility Model"
+    url: "https://aws.amazon.com/compliance/shared-responsibility-model/"
+---
+
+## Overview
+
+In the cloud, security is **shared**: the provider secures the infrastructure (&ldquo;security *of*
+the cloud&rdquo;) and you secure what you put in it (&ldquo;security *in* the cloud&rdquo;). Getting
+this boundary right is the first step of every cloud-security program.
+
+## Where the line sits
+
+```mermaid
+flowchart TB
+  subgraph You["Your responsibility — in the cloud"]
+    D[Data and classification]
+    A[Access management and IAM]
+    C[Configuration and workloads]
+  end
+  subgraph Provider["Provider responsibility — of the cloud"]
+    H[Physical and hardware]
+    N[Network infrastructure]
+    V[Virtualization layer]
+  end
+```
+
+The split **shifts with the service model**:
+
+| Model | You secure | Provider secures |
+| --- | --- | --- |
+| IaaS | OS, apps, data, IAM, network config | Hypervisor down |
+| PaaS | Apps, data, IAM | Runtime and OS |
+| SaaS | Data, access, usage | Almost everything else |
+
+## The constant
+
+No matter the model, **your data, your access control, and your configuration** are almost always
+yours to secure. Most cloud breaches are misconfiguration — not a provider failure.
+
+## References
+
+See the primary source below and the [Control Explorer](/control-mapping).
