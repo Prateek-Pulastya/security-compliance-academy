@@ -1,51 +1,72 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { Container } from "@/components/container";
 import { PageHeader } from "@/components/page-header";
-import { getAllTopics } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Threat Modeling",
-  description: "STRIDE, data-flow diagrams, attack trees, and trust boundaries with worked examples.",
+  description: "A curated set of authoritative, primary threat-modeling resources.",
 };
 
-const kindStyles: Record<string, string> = {
-  Method: "bg-primary/15 text-primary",
-  Technique: "bg-accent/15 text-accent",
-  Concept: "bg-muted text-muted-foreground",
-};
+const links: { name: string; url: string; note: string }[] = [
+  {
+    name: "OWASP Threat Modeling (community page)",
+    url: "https://owasp.org/www-community/Threat_Modeling",
+    note: "The canonical overview: what threat modeling is and the process.",
+  },
+  {
+    name: "OWASP Threat Modeling Cheat Sheet",
+    url: "https://cheatsheetseries.owasp.org/cheatsheets/Threat_Modeling_Cheat_Sheet.html",
+    note: "A practical, structured how-to you can follow step by step.",
+  },
+  {
+    name: "The Threat Modeling Manifesto",
+    url: "https://www.threatmodelingmanifesto.org/",
+    note: "Values and principles agreed by the field's practitioners.",
+  },
+  {
+    name: "Microsoft — STRIDE threats",
+    url: "https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool-threats",
+    note: "STRIDE categories and the security properties they violate.",
+  },
+  {
+    name: "Bruce Schneier — Attack Trees",
+    url: "https://www.schneier.com/academic/archives/1999/12/attack_trees.html",
+    note: "The original write-up on decomposing an attacker's goal.",
+  },
+];
 
 export default function ThreatModelingPage() {
-  const topics = getAllTopics("threat-modeling");
   return (
     <>
       <PageHeader
         eyebrow="Threat Modeling"
-        title="Think like an attacker"
-        description="A structured way to find design weaknesses early — model the system, enumerate threats, and decide mitigations. Click a topic to go deeper."
+        title="Threat modeling — start here"
+        description="Rather than restate it worse, this section points you to the authoritative primary resources. Model the system, enumerate threats, decide mitigations, and iterate."
       />
       <Container className="py-12">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {topics.map((t) => (
-            <Link
-              key={t.slug}
-              href={`/threat-modeling/${t.slug}`}
-              className="group flex flex-col rounded-xl border border-border bg-card p-6 transition-colors hover:border-primary/50 hover:bg-muted/40"
-            >
-              <span
-                className={`w-fit rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide ${kindStyles[t.kind] ?? "bg-muted text-muted-foreground"}`}
+        <div className="mx-auto max-w-2xl">
+          <div className="grid gap-3">
+            {links.map((l) => (
+              <a
+                key={l.url}
+                href={l.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-start justify-between gap-3 rounded-lg border border-border bg-card p-4 transition-colors hover:border-primary/50 hover:bg-muted/40"
               >
-                {t.kind}
-              </span>
-              <h2 className="mt-3 font-semibold">{t.title}</h2>
-              <p className="mt-2 flex-1 text-sm text-muted-foreground">{t.summary}</p>
-              <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                Learn
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </span>
-            </Link>
-          ))}
+                <span>
+                  <span className="font-medium">{l.name}</span>
+                  <span className="mt-1 block text-sm text-muted-foreground">{l.note}</span>
+                </span>
+                <ExternalLink className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground group-hover:text-primary" />
+              </a>
+            ))}
+          </div>
+          <p className="mt-6 text-xs text-muted-foreground">
+            Curated external references. Threat modeling is covered thoroughly by the sources above;
+            this page is a deliberate pointer, not a rewrite.
+          </p>
         </div>
       </Container>
     </>

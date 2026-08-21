@@ -64,13 +64,6 @@ export default function CareerRoadmapsPage() {
             </section>
           ))}
         </div>
-        <p className="mt-8 text-sm text-muted-foreground">
-          Looking for the project&apos;s build roadmap?{" "}
-          <Link href="/roadmap" className="font-medium text-primary hover:underline">
-            See how the academy is built
-          </Link>
-          .
-        </p>
       </Container>
     </>
   );

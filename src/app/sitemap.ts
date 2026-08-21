@@ -8,11 +8,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const base = siteConfig.url.replace(/\/$/, "");
   const staticRoutes = [
     "/",
-    "/roadmap",
     "/dashboard",
     "/assistant",
     "/contribute",
-    "/enterprise",
     ...navSections.map((s) => s.href),
   ];
   const frameworkRoutes = getAllFrameworks().map((f) => `/frameworks/${f.slug}`);
@@ -20,7 +18,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const postRoutes = getAllPosts().map((p) => `/blog/${p.slug}`);
   const aiRoutes = getAllAiTopics().map((t) => `/ai-security/${t.slug}`);
   const cloudRoutes = getAllTopics("cloud").map((t) => `/cloud/${t.slug}`);
-  const threatRoutes = getAllTopics("threat-modeling").map((t) => `/threat-modeling/${t.slug}`);
 
   return [
     ...staticRoutes,
@@ -29,7 +26,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...postRoutes,
     ...aiRoutes,
     ...cloudRoutes,
-    ...threatRoutes,
   ].map((path) => ({
     url: `${base}${path}`,
     changeFrequency: "weekly",

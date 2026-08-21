@@ -32,8 +32,15 @@ export default function FrameworksPage() {
                 <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                   {f.category}
                 </span>
-                <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
-                  {f.status}
+                <span className="flex items-center gap-1.5">
+                  {f.stub && (
+                    <span className="rounded-full border border-amber-500/40 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-amber-600 dark:text-amber-400">
+                      stub
+                    </span>
+                  )}
+                  <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+                    {f.status}
+                  </span>
                 </span>
               </div>
               <h2 className="mt-2 text-lg font-semibold">{f.title}</h2>

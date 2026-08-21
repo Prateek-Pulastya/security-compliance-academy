@@ -8,6 +8,7 @@ import { Container } from "@/components/container";
 import { PageHeader } from "@/components/page-header";
 import { mdxComponents } from "@/components/mdx";
 import { ContentActions } from "@/components/content-actions";
+import { ReferenceNote } from "@/components/reference-note";
 import { getAiTopicDoc, getAiTopicSlugs, extractToc } from "@/lib/content";
 
 export function generateStaticParams() {
@@ -45,7 +46,10 @@ export default async function AiTopicPage({ params }: { params: Promise<{ slug: 
         <div className="grid gap-10 lg:grid-cols-[1fr_240px]">
           <article className="min-w-0">
             <ContentActions href={`/ai-security/${slug}`} title={meta.title} kind="AI Security" />
-            <div className="mt-8">{content}</div>
+            <div className="mt-8">
+              {meta.stub && <ReferenceNote />}
+              {content}
+            </div>
 
             {meta.sources.length > 0 && (
               <section className="mt-12 border-t border-border pt-6">

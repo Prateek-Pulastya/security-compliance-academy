@@ -144,15 +144,15 @@ export default function Home() {
               Built in the open. Contributions welcome.
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-              This academy is a living, community-maintained resource. Follow the roadmap or help
+              This academy is a living, community-maintained resource. Follow a learning path or help
               shape what comes next.
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <Link
-                href="/roadmap"
+                href="/roadmaps"
                 className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
               >
-                View the roadmap
+                View the roadmaps
               </Link>
               <a
                 href={siteConfig.repo}

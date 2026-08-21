@@ -1,50 +1,41 @@
 #!/usr/bin/env node
 /**
- * Zero-dependency, directory-aware content validator.
+ * Directory-aware content validator.
  *
- * Walks content recursively for .mdx files and checks each one (except partials
- * prefixed with `_`) against the frontmatter contract for its collection. Exits
- * non-zero on failure so it can gate CI. See content/README.md.
+ * Walks content recursively for .mdx files (except partials prefixed with `_`)
+ * and enforces the frontmatter contract for each collection. Exits non-zero on
+ * failure so it gates CI. Integrity rules (see the Remediation plan):
+ *   - every file is dated (last_reviewed or updated) — undated content is wrong content
+ *   - compliance/technical content cites primary sources
+ *   - files marked `stub: true` must carry an explicit last_reviewed date
+ *   - a last_reviewed date warns after 9 months and fails after 12
  */
 import { readdir, readFile } from "node:fs/promises";
 import { join, relative, basename } from "node:path";
+import matter from "gray-matter";
 
 const ROOT = process.cwd();
 const CONTENT_DIR = join(ROOT, "content");
-
-const BASE_REQUIRED = ["title", "slug", "summary", "updated"];
 
 const CATEGORIES = ["GRC", "Cloud", "AI", "Privacy", "Operational Resilience"];
 const STATUSES = ["draft", "in-progress", "published"];
 const DIFFICULTIES = ["Beginner", "Intermediate", "Advanced"];
 
-/** Per-collection rules keyed by top-level directory under content/. */
+/** Collections whose content makes compliance/technical claims and must cite sources. */
+const SOURCED = new Set(["frameworks", "ai-security", "cloud", "labs"]);
+
+/** Per-collection required scalar fields + enum constraints. */
 const COLLECTIONS = {
-  frameworks: {
-    required: ["category", "status"],
-    enums: { category: CATEGORIES, status: STATUSES },
-  },
-  labs: {
-    required: ["difficulty", "duration"],
-    enums: { difficulty: DIFFICULTIES },
-  },
-  blog: {
-    required: ["author", "date"],
-    enums: {},
-  },
-  "ai-security": {
-    required: ["kind"],
-    enums: { kind: ["Framework", "Threat", "Practice"] },
-  },
-  cloud: {
-    required: ["kind"],
-    enums: { kind: ["Provider", "Practice", "Concept"] },
-  },
-  "threat-modeling": {
-    required: ["kind"],
-    enums: { kind: ["Method", "Technique", "Concept"] },
-  },
+  frameworks: { required: ["category", "status"], enums: { category: CATEGORIES, status: STATUSES } },
+  labs: { required: ["difficulty", "duration"], enums: { difficulty: DIFFICULTIES } },
+  blog: { required: ["author", "date"], enums: {} },
+  "ai-security": { required: ["kind"], enums: { kind: ["Framework", "Threat", "Practice"] } },
+  cloud: { required: ["kind"], enums: { kind: ["Provider", "Practice", "Concept"] } },
 };
+
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const NOW = new Date();
+const monthsBetween = (d) => (NOW - new Date(d)) / (1000 * 60 * 60 * 24 * 30.4);
 
 async function walk(dir) {
   const out = [];
@@ -57,24 +48,9 @@ async function walk(dir) {
   for (const e of entries) {
     const full = join(dir, e.name);
     if (e.isDirectory()) out.push(...(await walk(full)));
-    else if (e.isFile() && e.name.endsWith(".mdx") && !basename(e.name).startsWith("_")) {
-      out.push(full);
-    }
+    else if (e.isFile() && e.name.endsWith(".mdx") && !basename(e.name).startsWith("_")) out.push(full);
   }
   return out;
-}
-
-function parseFrontmatter(text) {
-  if (!text.startsWith("---")) return null;
-  const end = text.indexOf("\n---", 3);
-  if (end === -1) return null;
-  const block = text.slice(3, end).trim();
-  const data = {};
-  for (const line of block.split("\n")) {
-    const m = /^([A-Za-z0-9_]+):\s*(.*)$/.exec(line);
-    if (m) data[m[1]] = m[2].replace(/^["']|["']$/g, "").trim();
-  }
-  return data;
 }
 
 function collectionOf(relPath) {
@@ -85,31 +61,58 @@ function collectionOf(relPath) {
 
 const files = await walk(CONTENT_DIR);
 const errors = [];
+const warnings = [];
 
 for (const file of files) {
   const rel = relative(ROOT, file);
-  const text = await readFile(file, "utf8");
-  const fm = parseFrontmatter(text);
-  if (!fm) {
-    errors.push(`${rel}: missing or malformed YAML frontmatter`);
+  let data;
+  try {
+    ({ data } = matter(await readFile(file, "utf8")));
+  } catch {
+    errors.push(`${rel}: malformed frontmatter`);
     continue;
   }
 
-  const rules = COLLECTIONS[collectionOf(rel)] ?? { required: [], enums: {} };
-  const required = [...BASE_REQUIRED, ...rules.required];
+  const collection = collectionOf(rel);
+  const rules = COLLECTIONS[collection] ?? { required: [], enums: {} };
 
-  for (const key of required) {
-    if (!fm[key]) errors.push(`${rel}: missing required frontmatter field "${key}"`);
+  for (const key of ["title", "slug", "summary", ...rules.required]) {
+    if (!data[key]) errors.push(`${rel}: missing required field "${key}"`);
   }
   for (const [key, allowed] of Object.entries(rules.enums)) {
-    if (fm[key] && !allowed.includes(fm[key])) {
-      errors.push(`${rel}: invalid ${key} "${fm[key]}" (expected ${allowed.join(", ")})`);
+    if (data[key] && !allowed.includes(data[key])) {
+      errors.push(`${rel}: invalid ${key} "${data[key]}" (expected ${allowed.join(", ")})`);
     }
   }
-  if (fm.updated && !/^\d{4}-\d{2}-\d{2}$/.test(fm.updated)) {
-    errors.push(`${rel}: "updated" must be an ISO date (YYYY-MM-DD)`);
+
+  // Dating: last_reviewed (preferred) or updated; must be a valid ISO date.
+  // YAML auto-parses unquoted dates to Date objects — normalize both forms.
+  const rawDate = data.last_reviewed ?? data.updated;
+  const reviewDate = rawDate instanceof Date ? rawDate.toISOString().slice(0, 10) : String(rawDate ?? "");
+  if (!rawDate) {
+    errors.push(`${rel}: missing a review date (last_reviewed or updated)`);
+  } else if (!DATE_RE.test(reviewDate)) {
+    errors.push(`${rel}: review date must be ISO (YYYY-MM-DD)`);
+  } else {
+    const age = monthsBetween(reviewDate);
+    if (age > 12) errors.push(`${rel}: content is stale (last reviewed ${Math.round(age)} months ago)`);
+    else if (age > 9) warnings.push(`${rel}: review is ${Math.round(age)} months old — refresh soon`);
+  }
+
+  // Stubs must be explicitly dated with last_reviewed.
+  if (data.stub === true && !data.last_reviewed) {
+    errors.push(`${rel}: stub must have an explicit last_reviewed date`);
+  }
+
+  // Sourced collections must cite at least one primary source.
+  if (SOURCED.has(collection)) {
+    if (!Array.isArray(data.sources) || data.sources.length === 0) {
+      errors.push(`${rel}: missing sources (at least one primary source required)`);
+    }
   }
 }
+
+for (const w of warnings) console.warn(`⚠ ${w}`);
 
 if (errors.length) {
   console.error(`✗ Content validation failed (${errors.length} issue(s)):`);
@@ -117,4 +120,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`✓ Content validation passed (${files.length} file(s) checked).`);
+console.log(`✓ Content validation passed (${files.length} file(s) checked, ${warnings.length} warning(s)).`);

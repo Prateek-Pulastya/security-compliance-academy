@@ -18,6 +18,7 @@ export type FrameworkMeta = {
   updated: string;
   sources: Source[];
   focus: string[];
+  stub: boolean;
 };
 
 export type FrameworkDoc = {
@@ -60,6 +61,7 @@ function toMeta(slug: string, data: Record<string, unknown>): FrameworkMeta {
     updated: String(data.updated ?? ""),
     sources: Array.isArray(data.sources) ? (data.sources as Source[]) : [],
     focus: Array.isArray(data.focus) ? (data.focus as string[]) : [],
+    stub: data.stub === true,
   };
 }
 
@@ -223,6 +225,7 @@ export type AiTopicMeta = {
   kind: AiTopicKind;
   order: number;
   sources: Source[];
+  stub: boolean;
 };
 
 export type AiTopicDoc = { meta: AiTopicMeta; body: string };
@@ -254,6 +257,7 @@ export function getAiTopicDoc(slug: string): AiTopicDoc | null {
         kind: (data.kind as AiTopicKind) ?? "Practice",
         order: Number(data.order ?? 99),
         sources: Array.isArray(data.sources) ? (data.sources as Source[]) : [],
+        stub: data.stub === true,
       },
       body: content,
     };
@@ -281,6 +285,7 @@ export type TopicMeta = {
   kind: string;
   order: number;
   sources: Source[];
+  stub: boolean;
 };
 
 export type TopicDoc = { meta: TopicMeta; body: string };
@@ -308,6 +313,7 @@ export function getTopicDoc(collection: string, slug: string): TopicDoc | null {
         kind: String(data.kind ?? "Topic"),
         order: Number(data.order ?? 99),
         sources: Array.isArray(data.sources) ? (data.sources as Source[]) : [],
+        stub: data.stub === true,
       },
       body: content,
     };

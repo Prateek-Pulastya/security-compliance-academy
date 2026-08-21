@@ -8,6 +8,7 @@ import { Container } from "@/components/container";
 import { PageHeader } from "@/components/page-header";
 import { mdxComponents } from "@/components/mdx";
 import { ContentActions } from "@/components/content-actions";
+import { ReferenceNote } from "@/components/reference-note";
 import { getTopicDoc, getTopicSlugs, extractToc } from "@/lib/content";
 
 const COLLECTION = "cloud";
@@ -47,7 +48,10 @@ export default async function CloudTopicPage({ params }: { params: Promise<{ slu
         <div className="grid gap-10 lg:grid-cols-[1fr_240px]">
           <article className="min-w-0">
             <ContentActions href={`/cloud/${slug}`} title={meta.title} kind="Cloud" />
-            <div className="mt-8">{content}</div>
+            <div className="mt-8">
+              {meta.stub && <ReferenceNote />}
+              {content}
+            </div>
 
             {meta.sources.length > 0 && (
               <section className="mt-12 border-t border-border pt-6">

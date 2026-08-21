@@ -7,21 +7,25 @@ governance/risk/compliance — with hands-on labs and control-to-framework mappi
 
 **Live site:** https://Prateek-Pulastya.github.io/security-compliance-academy/
 
-## Status
+## Status — early, work in progress
 
-**All five build phases complete.** The platform includes:
+This is an active build, not a finished platform. Honest current state:
 
-- **Content pipeline** — MDX + YAML frontmatter with Mermaid diagrams; eight frameworks, two labs,
-  and blog posts render from `content/`.
-- **Interactive tools** — control explorer (search + filter), framework comparison matrix, quizzes,
-  interview bank + simulator, and site-wide search (⌘K).
-- **Personalization** — local progress tracking, bookmarks, and a dashboard (browser-only, no
-  backend), plus a retrieval-based study assistant.
-- **Career roadmaps**, cloud & secure-SDLC guides, threat modeling, blog, contribution guide, and a
-  teams/enterprise page.
+| Area | State |
+| --- | --- |
+| In-depth framework guides | 4 (ISO/IEC 27001:2022, NIST CSF 2.0, SOC 2, GDPR) |
+| Reference stubs | ~10 — short orientation notes that link to primary sources, marked `stub` |
+| Control crosswalk dataset | in progress — see [`data/controls/`](./data/controls/) |
+| Hands-on labs | 2 |
+| Quiz bank | small, hardcoded — see [`src/lib/quizzes.ts`](./src/lib/quizzes.ts) |
+| Interview questions | small, hardcoded — see [`src/lib/interview.ts`](./src/lib/interview.ts) |
 
-See the [build roadmap](/roadmap) and [`docs/`](./docs). Content is illustrative and educational —
-not legal or compliance advice.
+Pages marked **stub** are deliberately short: they orient you and point at the
+primary source. They are not a substitute for reading the standard.
+
+The site also has a small quiz bank and keyword search over site content.
+
+Educational material only — not legal or compliance advice.
 
 ## Tech stack
 

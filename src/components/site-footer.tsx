@@ -31,8 +31,6 @@ export function SiteFooter() {
               { href: "/assistant", title: "Study Assistant" },
               { href: "/dashboard", title: "My Dashboard" },
               { href: "/contribute", title: "Contribute" },
-              { href: "/enterprise", title: "For Teams" },
-              { href: "/roadmap", title: "Build Roadmap" },
             ].map((s) => (
               <Link
                 key={s.href}

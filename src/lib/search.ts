@@ -61,11 +61,8 @@ export function buildSearchIndex(): SearchDoc[] {
     });
   }
 
-  // Cloud & Threat-Modeling topics
-  for (const [collection, section] of [
-    ["cloud", "Cloud Security"],
-    ["threat-modeling", "Threat Modeling"],
-  ] as const) {
+  // Cloud topics
+  for (const [collection, section] of [["cloud", "Cloud Security"]] as const) {
     for (const meta of getAllTopics(collection)) {
       const doc = getTopicDoc(collection, meta.slug);
       const body = doc ? toPlainText(doc.body) : "";

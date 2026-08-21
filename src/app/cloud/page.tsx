@@ -33,10 +33,17 @@ export default function CloudPage() {
               href={`/cloud/${t.slug}`}
               className="group flex flex-col rounded-xl border border-border bg-card p-6 transition-colors hover:border-primary/50 hover:bg-muted/40"
             >
-              <span
-                className={`w-fit rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide ${kindStyles[t.kind] ?? "bg-muted text-muted-foreground"}`}
-              >
-                {t.kind}
+              <span className="flex w-fit items-center gap-1.5">
+                <span
+                  className={`rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide ${kindStyles[t.kind] ?? "bg-muted text-muted-foreground"}`}
+                >
+                  {t.kind}
+                </span>
+                {t.stub && (
+                  <span className="rounded-full border border-amber-500/40 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-amber-600 dark:text-amber-400">
+                    stub
+                  </span>
+                )}
               </span>
               <h2 className="mt-3 font-semibold">{t.title}</h2>
               <p className="mt-2 flex-1 text-sm text-muted-foreground">{t.summary}</p>

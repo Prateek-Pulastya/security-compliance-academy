@@ -8,6 +8,7 @@ import { Container } from "@/components/container";
 import { PageHeader } from "@/components/page-header";
 import { mdxComponents } from "@/components/mdx";
 import { ContentActions } from "@/components/content-actions";
+import { ReferenceNote } from "@/components/reference-note";
 import { getFrameworkDoc, getFrameworkSlugs, extractToc } from "@/lib/content";
 
 export function generateStaticParams() {
@@ -55,7 +56,10 @@ export default async function FrameworkPage({
         <div className="grid gap-10 lg:grid-cols-[1fr_240px]">
           <article className="min-w-0">
             <ContentActions href={`/frameworks/${slug}`} title={meta.title} kind="Framework" />
-            <div className="mt-8">{content}</div>
+            <div className="mt-8">
+              {meta.stub && <ReferenceNote />}
+              {content}
+            </div>
 
             {meta.sources.length > 0 && (
               <section className="mt-12 border-t border-border pt-6">
