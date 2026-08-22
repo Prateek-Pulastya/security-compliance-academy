@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Control",
+  "type": "object",
+  "required": ["id", "title", "objective", "framework", "framework_version", "clause", "source_url", "last_reviewed"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "title": { "type": "string", "minLength": 5 },
+    "category": {
+      "type": "string",
+      "enum": ["Identity & Access", "Data Protection", "Detection", "Threat & Vulnerability", "Resilience", "Infrastructure"]
+    },
+    "objective": { "type": "string", "minLength": 40 },
+    "framework": { "enum": ["iso-27001", "nist-csf", "soc-2", "cis", "gdpr"] },
+    "framework_version": { "type": "string" },
+    "clause": { "type": "string" },
+    "technical_implementation": { "type": "string" },
+    "evidence_artifact": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "related_controls": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-z0-9-]+$" }
+    },
+    "mappings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["framework", "clause", "confidence", "rationale"],
+        "additionalProperties": false,
+        "properties": {
+          "framework": { "enum": ["iso-27001", "nist-csf", "soc-2", "cis", "gdpr"] },
+          "clause": { "type": "string" },
+          "confidence": { "enum": ["equivalent", "partial", "related"] },
+          "rationale": { "type": "string", "minLength": 30 }
+        }
+      }
+    },
+    "source_url": { "type": "string", "format": "uri" },
+    "last_reviewed": { "type": "string", "format": "date" }
+  }
+}

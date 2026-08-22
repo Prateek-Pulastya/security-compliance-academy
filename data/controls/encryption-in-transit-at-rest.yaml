@@ -1,0 +1,38 @@
+id: encryption-in-transit-at-rest
+title: Encryption of data in transit and at rest
+category: Data Protection
+objective: >
+  Protect the confidentiality of data in transit and at rest using current,
+  well-managed cryptography and key management.
+framework: iso-27001
+framework_version: "2022"
+clause: "A.8.24"
+technical_implementation: >
+  Enforce TLS 1.2+ for data in transit; enable provider-managed encryption at
+  rest (KMS/Key Vault) with key rotation; centralise key management and restrict
+  key-use permissions.
+evidence_artifact:
+  - "TLS scan / configuration report for public endpoints"
+  - "Storage encryption settings export (at-rest)"
+  - "Key management policy and rotation configuration"
+mappings:
+  - framework: nist-csf
+    clause: "PR.DS-01"
+    confidence: equivalent
+    rationale: >
+      PR.DS-01 (data at rest) together with PR.DS-02 (data in transit) express
+      the same protection outcome as ISO A.8.24.
+  - framework: soc-2
+    clause: "CC6.7"
+    confidence: partial
+    rationale: >
+      CC6.7 addresses transmission and movement of data; at-rest encryption is
+      covered under CC6.1, so the mapping spans more than one criterion.
+  - framework: gdpr
+    clause: "Art. 32(1)(a)"
+    confidence: related
+    rationale: >
+      GDPR names encryption as an example measure appropriate to risk, not a
+      hard requirement — related rather than equivalent.
+source_url: "https://www.iso.org/standard/27001"
+last_reviewed: "2026-08-25"

@@ -1,0 +1,39 @@
+id: centralized-logging
+title: Centralised logging and retention
+category: Detection
+objective: >
+  Capture security-relevant events from systems, applications, and identity
+  providers into a centralised, tamper-resistant store with a defined retention
+  period.
+framework: iso-27001
+framework_version: "2022"
+clause: "A.8.15"
+technical_implementation: >
+  Ship OS, application, and cloud API audit logs to a central account or
+  workspace with write-once/retention policies; restrict who can read or delete;
+  alert on gaps in log delivery.
+evidence_artifact:
+  - "Log pipeline/architecture diagram, dated"
+  - "Retention policy configuration export"
+  - "Sample query showing coverage across in-scope systems for the audit period"
+mappings:
+  - framework: nist-csf
+    clause: "PR.PS-04"
+    confidence: equivalent
+    rationale: >
+      PR.PS-04 requires log records to be generated and made available for
+      continuous monitoring — the same outcome as ISO A.8.15.
+  - framework: soc-2
+    clause: "CC7.2"
+    confidence: partial
+    rationale: >
+      CC7.2 concerns monitoring to detect anomalies; logging is the necessary
+      substrate but the criterion is broader than log capture alone.
+  - framework: cis
+    clause: "8"
+    confidence: equivalent
+    rationale: >
+      CIS Control 8 (Audit Log Management) directly covers collection, central
+      storage, and retention of logs.
+source_url: "https://www.iso.org/standard/27001"
+last_reviewed: "2026-08-25"

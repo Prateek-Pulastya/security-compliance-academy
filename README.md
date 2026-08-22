@@ -27,6 +27,25 @@ The site also has a small quiz bank and keyword search over site content.
 
 Educational material only — not legal or compliance advice.
 
+## Data — the control crosswalk
+
+The differentiator: a **cited, machine-readable control-to-framework crosswalk**. Every mapping
+carries a version, a primary-source URL, a `last_reviewed` date, and a **confidence grade with a
+rationale** — because flat "equivalent" claims between frameworks are usually wrong.
+
+- **Source of truth:** [`data/controls/*.yaml`](./data/controls/) (schema in
+  [`data/schema/control.schema.json`](./data/schema/control.schema.json))
+- **Coverage & limits:** [`data/COVERAGE.md`](./data/COVERAGE.md) — read this first
+- **Validation:** `npm run validate:controls` (schema, dangling references, duplicate ids,
+  staleness) — wired into CI
+- **Published:** the whole dataset compiles to one fetchable file at
+  **`/controls.json`**:
+
+```js
+const res = await fetch("https://prateek-pulastya.github.io/security-compliance-academy/controls.json");
+const { controls } = await res.json();
+```
+
 ## Tech stack
 
 Next.js 16 (App Router, static export) · React 19 · TypeScript · Tailwind CSS v4 · lucide-react ·
@@ -49,8 +68,10 @@ Open http://localhost:3000.
 | `npm run build`            | Production build                       |
 | `npm run lint`             | ESLint                                 |
 | `npm run typecheck`        | TypeScript, no emit                    |
-| `npm run validate:content` | Validate content frontmatter           |
-| `npm run check`            | Lint + type-check + content validation |
+| `npm run validate:content` | Validate content frontmatter (dating + citations) |
+| `npm run validate:controls`| Validate the crosswalk dataset         |
+| `npm run test`             | Run the Vitest test suite              |
+| `npm run check`            | Lint + type-check + validate content + controls |
 
 ## Documentation
 
@@ -78,4 +99,11 @@ Notes:
 
 ## License
 
-MIT — see [LICENSE](./LICENSE). Educational material only — not legal or compliance advice.
+Dual-licensed, because a software licence says nothing coherent about prose and data:
+
+- **Code** (`src/`, `scripts/`, config) — MIT, see [LICENSE](./LICENSE).
+- **Content & data** (`content/`, `data/`) — CC BY-SA 4.0, see
+  [LICENSE-CONTENT](./LICENSE-CONTENT). Reuse is welcome; attribution and share-alike apply.
+
+Cite the dataset via [CITATION.cff](./CITATION.cff). Security policy:
+[SECURITY.md](./SECURITY.md). Educational material only — not legal or compliance advice.

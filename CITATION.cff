@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this dataset or project, please cite it as below."
+title: "Security Compliance Academy — Control Crosswalk Dataset"
+abstract: >
+  A free, cited control-to-framework crosswalk (ISO/IEC 27001, NIST CSF 2.0,
+  SOC 2, CIS Controls, GDPR) with confidence-graded mappings and a
+  machine-readable dataset, plus hands-on security-compliance learning content.
+type: dataset
+authors:
+  - family-names: Pulastya
+    given-names: Prateek
+repository-code: "https://github.com/Prateek-Pulastya/security-compliance-academy"
+url: "https://prateek-pulastya.github.io/security-compliance-academy/"
+license: "CC-BY-SA-4.0"
+keywords:
+  - compliance
+  - control-mapping
+  - iso-27001
+  - nist-csf
+  - soc-2
+  - gdpr
+  - grc

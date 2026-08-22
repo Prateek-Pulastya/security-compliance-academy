@@ -2,16 +2,22 @@
 
 import { useMemo, useState } from "react";
 import { Search, X } from "lucide-react";
-import { controls as allControls } from "@/lib/controls";
+import type { Control } from "@/lib/controls";
 import { cn } from "@/lib/utils";
 
-export function ControlExplorer({ frameworks }: { frameworks: string[] }) {
+export function ControlExplorer({
+  controls,
+  frameworks,
+}: {
+  controls: Control[];
+  frameworks: string[];
+}) {
   const [query, setQuery] = useState("");
   const [activeFramework, setActiveFramework] = useState<string | null>(null);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return allControls.filter((c) => {
+    return controls.filter((c) => {
       const matchesFramework = !activeFramework || c.mappings.some((m) => m.framework === activeFramework);
       if (!matchesFramework) return false;
       if (!q) return true;
@@ -22,7 +28,7 @@ export function ControlExplorer({ frameworks }: { frameworks: string[] }) {
         c.mappings.some((m) => `${m.framework} ${m.reference} ${m.note}`.toLowerCase().includes(q))
       );
     });
-  }, [query, activeFramework]);
+  }, [controls, query, activeFramework]);
 
   return (
     <div>

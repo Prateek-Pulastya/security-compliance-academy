@@ -9,7 +9,11 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "validate:content": "node scripts/validate-content.mjs",
-    "check": "npm run lint && npm run typecheck && npm run validate:content"
+    "validate:controls": "node scripts/validate-controls.mjs",
+    "build:controls": "node scripts/build-controls.mjs",
+    "test": "vitest run",
+    "prebuild": "node scripts/build-controls.mjs",
+    "check": "npm run lint && npm run typecheck && npm run validate:content && npm run validate:controls"
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -24,7 +28,8 @@
     "rehype-autolink-headings": "^7.1.0",
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.1",
-    "tailwind-merge": "^3.6.0"
+    "tailwind-merge": "^3.6.0",
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -34,7 +39,8 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.12",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.11"
   },
   "overrides": {
     "postcss": "^8.5.18",

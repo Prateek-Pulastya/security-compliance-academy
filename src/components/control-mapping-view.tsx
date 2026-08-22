@@ -4,11 +4,18 @@ import { useState } from "react";
 import { LayoutGrid, Table2 } from "lucide-react";
 import { ControlExplorer } from "./control-explorer";
 import { ControlCoverageMatrix } from "./control-coverage-matrix";
+import type { Control } from "@/lib/controls";
 import { cn } from "@/lib/utils";
 
 type View = "explorer" | "matrix";
 
-export function ControlMappingView({ frameworks }: { frameworks: string[] }) {
+export function ControlMappingView({
+  controls,
+  frameworks,
+}: {
+  controls: Control[];
+  frameworks: string[];
+}) {
   const [view, setView] = useState<View>("explorer");
 
   const tabs: { key: View; label: string; icon: typeof LayoutGrid }[] = [
@@ -35,7 +42,11 @@ export function ControlMappingView({ frameworks }: { frameworks: string[] }) {
         ))}
       </div>
 
-      {view === "explorer" ? <ControlExplorer frameworks={frameworks} /> : <ControlCoverageMatrix />}
+      {view === "explorer" ? (
+        <ControlExplorer controls={controls} frameworks={frameworks} />
+      ) : (
+        <ControlCoverageMatrix controls={controls} />
+      )}
     </div>
   );
 }

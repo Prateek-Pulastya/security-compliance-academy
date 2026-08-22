@@ -1,0 +1,40 @@
+id: access-review
+title: Periodic access review
+category: Identity & Access
+objective: >
+  Review user and service access rights on a defined cadence to confirm they
+  remain appropriate, and revoke access that is no longer required.
+framework: iso-27001
+framework_version: "2022"
+clause: "A.5.18"
+technical_implementation: >
+  Generate access reports per system on a quarterly cadence; route to resource
+  owners for attestation; automate deprovisioning on role change and offboarding;
+  retain signed-off review records.
+evidence_artifact:
+  - "Completed access review with reviewer sign-off and date"
+  - "Joiner-mover-leaver procedure"
+  - "Sample of deprovisioning tickets tied to offboarding events"
+mappings:
+  - framework: nist-csf
+    clause: "PR.AA-05"
+    confidence: partial
+    rationale: >
+      PR.AA-05 covers privilege and access-permission management (least privilege,
+      separation of duties) but is less explicit than ISO A.5.18 about a periodic
+      review cadence.
+  - framework: soc-2
+    clause: "CC6.2"
+    confidence: partial
+    rationale: >
+      CC6.2/CC6.3 address registration, authorization, and modification of access;
+      periodic recertification is one accepted control activity among several.
+  - framework: cis
+    clause: "6"
+    confidence: partial
+    rationale: >
+      CIS Control 6 (Access Control Management) includes granting and revoking
+      access; recurring review is implied through its safeguards rather than a
+      single named requirement.
+source_url: "https://www.iso.org/standard/27001"
+last_reviewed: "2026-08-25"

@@ -1,0 +1,38 @@
+id: backup-restore
+title: Backup and tested restore
+category: Resilience
+objective: >
+  Maintain backups of essential data and systems, and periodically test
+  restoration to confirm recoverability within objectives.
+framework: iso-27001
+framework_version: "2022"
+clause: "A.8.13"
+technical_implementation: >
+  Automate policy-based backups with encryption and offsite/second-region copies;
+  schedule restore tests; record recovery time and point objectives (RTO/RPO) and
+  actual results.
+evidence_artifact:
+  - "Backup policy and schedule configuration"
+  - "Restore-test record with date, scope, and measured RTO/RPO"
+  - "Evidence of backup encryption and access restriction"
+mappings:
+  - framework: nist-csf
+    clause: "PR.DS-11"
+    confidence: equivalent
+    rationale: >
+      PR.DS-11 requires backups of data to be created, protected, maintained, and
+      tested — directly matching ISO A.8.13 including the test element.
+  - framework: soc-2
+    clause: "A1.2"
+    confidence: equivalent
+    rationale: >
+      Availability criterion A1.2 covers backup and recovery of data and systems,
+      including tested restoration.
+  - framework: cis
+    clause: "11"
+    confidence: equivalent
+    rationale: >
+      CIS Control 11 (Data Recovery) covers automated backups and recovery
+      testing, closely matching the ISO control.
+source_url: "https://www.iso.org/standard/27001"
+last_reviewed: "2026-08-25"

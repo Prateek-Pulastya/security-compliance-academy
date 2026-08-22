@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Generated crosswalk artifact (built from data/controls by prebuild)
+/public/controls.json

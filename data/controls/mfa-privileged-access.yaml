@@ -1,0 +1,38 @@
+id: mfa-privileged-access
+title: Multi-factor authentication for privileged accounts
+category: Identity & Access
+objective: >
+  Require a second authentication factor for all accounts holding administrative
+  privileges over production systems and identity providers.
+framework: iso-27001
+framework_version: "2022"
+clause: "A.8.5"
+technical_implementation: >
+  Enforce via IdP conditional access policy scoped to the privileged-role group;
+  deny legacy auth protocols; prefer phishing-resistant factors (WebAuthn/FIDO2)
+  over SMS.
+evidence_artifact:
+  - "IdP conditional access policy export (JSON/screenshot), dated"
+  - "List of privileged accounts with MFA registration status"
+  - "Sample of authentication logs showing a second-factor challenge"
+mappings:
+  - framework: nist-csf
+    clause: "PR.AA-03"
+    confidence: equivalent
+    rationale: >
+      Both require authentication proportionate to risk for privileged identities;
+      CSF 2.0 states it as an outcome rather than a prescriptive control.
+  - framework: soc-2
+    clause: "CC6.1"
+    confidence: partial
+    rationale: >
+      CC6.1 covers logical access broadly; MFA is one of several means an auditor
+      accepts, so the mapping is directional, not one-to-one.
+  - framework: cis
+    clause: "6.5"
+    confidence: partial
+    rationale: >
+      CIS v8.1 Safeguard 6.5 requires MFA for administrative access specifically;
+      narrower in scope than the ISO control but directly aligned for admins.
+source_url: "https://www.iso.org/standard/27001"
+last_reviewed: "2026-08-25"

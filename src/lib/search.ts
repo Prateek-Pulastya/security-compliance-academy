@@ -7,7 +7,7 @@ import {
   getTopicDoc,
 } from "./content";
 import { navSections } from "./site";
-import { controls } from "./controls";
+import { getControls } from "./controls-data";
 
 export type SearchDoc = {
   title: string;
@@ -76,7 +76,7 @@ export function buildSearchIndex(): SearchDoc[] {
   }
 
   // Controls
-  for (const c of controls) {
+  for (const c of getControls()) {
     docs.push({
       title: c.name,
       href: `/control-mapping#${c.id}`,

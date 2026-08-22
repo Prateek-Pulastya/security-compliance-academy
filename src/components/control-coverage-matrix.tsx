@@ -1,7 +1,7 @@
 "use client";
 
 import { Check } from "lucide-react";
-import { controls, coverageFrameworks, coverageRef } from "@/lib/controls";
+import { coverageFrameworks, coverageRef, type Control } from "@/lib/controls";
 
 /**
  * Control-coverage heatmap (control × framework), in the spirit of the MITRE
@@ -9,7 +9,7 @@ import { controls, coverageFrameworks, coverageRef } from "@/lib/controls";
  * hover a cell for the specific reference. Coverage is never encoded by colour
  * alone — filled cells carry a check icon and each row shows a count.
  */
-export function ControlCoverageMatrix() {
+export function ControlCoverageMatrix({ controls }: { controls: Control[] }) {
   return (
     <div>
       <div className="overflow-x-auto rounded-xl border border-border">
